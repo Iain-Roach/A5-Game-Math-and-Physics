@@ -72,8 +72,6 @@ public class CustomRigidbody : MonoBehaviour
 
     private Vector2 TransformVertex(Vector2 vertex, float angle)
     {
-        Debug.LogWarning(this.position.x);
-        Debug.LogWarning(this.position.y);
         // d [sqrt(x^2 + y^2) = d] sin(theta)
         //return new Vector2((Mathf.Cos(Mathf.Deg2Rad * angle) * (vertex.x) - Mathf.Sin(Mathf.Deg2Rad * angle) * (vertex.y)) + this.position.x,
         //    (Mathf.Sin(Mathf.Deg2Rad * angle) * (vertex.x) + Mathf.Cos(Mathf.Deg2Rad * angle) * (vertex.y)) + this.position.y);

@@ -10,6 +10,7 @@ public class CustomPhysics : MonoBehaviour
     private void Awake()
     {
         objList.Add(Instantiate(square, new Vector3(0, 0, 0), Quaternion.identity));
+        objList.Add(Instantiate(square, new Vector3(0f, 1.5f, 0), Quaternion.identity));
     }
 
     // Start is called before the first frame update
@@ -24,8 +25,32 @@ public class CustomPhysics : MonoBehaviour
         for (int i = 0; i < objList.Count; i++)
         {
             CustomRigidbody rb = objList[i].GetComponent<CustomRigidbody>();
-            rb.Rotate(Mathf.PI / 2f);
-            // rb.Move(new Vector2(1.0f * Time.deltaTime, 0));
+            //rb.Rotate(Mathf.PI / 2f);
+            
+            if(i == 1)
+            rb.Move(new Vector2(0, -2.0f * Time.deltaTime));
+        }
+
+        for(int i = 0; i < objList.Count - 1; i++)
+        {
+            CustomRigidbody rba = objList[i].GetComponent<CustomRigidbody>();
+            for(int j = i + 1; j < objList.Count; j++)
+            {
+                CustomRigidbody rbb = objList[j].GetComponent<CustomRigidbody>();
+
+                if (CollisionDetection.Intersect(
+                    rba.GetTransformedVertices(), 
+                    rbb.GetTransformedVertices(),
+                    out Vector2 normal, out float depth))
+                {
+                    Debug.LogWarning("Collision Detected");
+                    rba.Move(-normal * depth / 2f);
+                    rbb.Move(normal * depth / 2f);
+                }
+
+
+
+            }
         }
     }
 }
