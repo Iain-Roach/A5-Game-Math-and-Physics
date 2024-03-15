@@ -62,7 +62,7 @@ public class CustomRigidbody : MonoBehaviour
             for (int i = 0; i < vertices.Length; i++)
             {
                 Vector2 v = vertices[i];
-                transformedVertices[i] = TransformVertex(v, rotation);
+                transformedVertices[i] = TransformVertex(v, rotation + (i * 90 + 45));
             }
         }
 
@@ -70,10 +70,16 @@ public class CustomRigidbody : MonoBehaviour
         return transformedVertices;
     }
 
-    private Vector2 TransformVertex(Vector2 position, float angle)
+    private Vector2 TransformVertex(Vector2 vertex, float angle)
     {
-        return new Vector2(Mathf.Cos(angle) * position.x - Mathf.Sin(angle) * position.y + this.position.x,
-            Mathf.Sin(angle) * position.x + Mathf.Cos(angle) * position.y + this.position.y);
+        Debug.LogWarning(this.position.x);
+        Debug.LogWarning(this.position.y);
+        // d [sqrt(x^2 + y^2) = d] sin(theta)
+        //return new Vector2((Mathf.Cos(Mathf.Deg2Rad * angle) * (vertex.x) - Mathf.Sin(Mathf.Deg2Rad * angle) * (vertex.y)) + this.position.x,
+        //    (Mathf.Sin(Mathf.Deg2Rad * angle) * (vertex.x) + Mathf.Cos(Mathf.Deg2Rad * angle) * (vertex.y)) + this.position.y);
+
+
+        return new Vector2(1 / Mathf.Sqrt(2.0f) * Mathf.Cos(Mathf.Deg2Rad * angle) + this.position.x, 1 / Mathf.Sqrt(2.0f) * Mathf.Sin(Mathf.Deg2Rad * angle) + this.position.y);
     }
 
 
@@ -94,6 +100,26 @@ public class CustomRigidbody : MonoBehaviour
     public void Rotate(float amount)
     {
         this.rotation += amount;
+        transform.Rotate(new Vector3(0, 0, 1), amount);
         transformUpdateRequired = true;
+    }
+
+    public void Update()
+    {
+        // Get the corners of the box
+        //    Vector2[] corners = GetCorners();
+
+        //    // Draw lines between the corners
+        //    Debug.DrawLine(corners[0], corners[1], Color.red);
+        //    Debug.DrawLine(corners[1], corners[2], Color.red);
+        //    Debug.DrawLine(corners[2], corners[3], Color.red);
+        //    Debug.DrawLine(corners[3], corners[0], Color.red);
+
+        GetTransformedVertices();
+        Debug.Log(transformedVertices[1]);
+        Debug.DrawLine(transformedVertices[0], transformedVertices[1], Color.green);
+        Debug.DrawLine(transformedVertices[1], transformedVertices[2], Color.green);
+        Debug.DrawLine(transformedVertices[2], transformedVertices[3], Color.green);
+        Debug.DrawLine(transformedVertices[3], transformedVertices[0], Color.green);
     }
 }
