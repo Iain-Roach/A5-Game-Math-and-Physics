@@ -4,6 +4,7 @@ using UnityEngine;
 
 public static class CollisionDetection
 {
+    //SAT :O
     public static bool Intersect(Vector2[] verticesA, Vector2[] verticesB, out Vector2 normal, out float depth)
     {
         normal = Vector2.zero;
@@ -16,6 +17,9 @@ public static class CollisionDetection
 
             Vector2 edge = vb - va;
             Vector2 axis = new Vector2(-edge.y, edge.x);
+
+            // normalize axis
+            axis = axis.normalized;
 
             ProjectVertices(verticesA, axis, out float minA, out float maxA);
             ProjectVertices(verticesB, axis, out float minB, out float maxB);
@@ -43,6 +47,8 @@ public static class CollisionDetection
             Vector2 edge = vb - va;
             Vector2 axis = new Vector2(-edge.y, edge.x);
 
+            axis = axis.normalized;
+
             ProjectVertices(verticesA, axis, out float minA, out float maxA);
             ProjectVertices(verticesB, axis, out float minB, out float maxB);
 
@@ -61,8 +67,8 @@ public static class CollisionDetection
             }
         }
 
-        depth /= normal.magnitude;
-        normal = normal.normalized;
+        //depth /= normal.magnitude;
+        //normal = normal.normalized;
 
 
         Vector2 centerA = ArithmeticMean(verticesA);

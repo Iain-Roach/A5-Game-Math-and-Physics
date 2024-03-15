@@ -796,6 +796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   square: {fileID: 909000003}
+  gravity: {x: 0, y: -9.81}
 --- !u!1 &652131831
 GameObject:
   m_ObjectHideFlags: 0
@@ -1071,6 +1072,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad002b39474be684cb13a0a01efd296e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotation: 0
   density: 2
   mass: 1
   restitution: 0.5

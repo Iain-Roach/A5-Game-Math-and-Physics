@@ -6,7 +6,7 @@ public class CustomRigidbody : MonoBehaviour
 {
     private Vector2 position;
     private Vector2 linearVelocity;
-    private float rotation;
+    public float rotation;
     private float rotationalVelocity;
 
     public float density;
@@ -21,6 +21,16 @@ public class CustomRigidbody : MonoBehaviour
 
     public Vector2 Position { get { return position; } }
 
+    public Vector2 LinearVelocity
+    {
+        get { return linearVelocity; }
+        set { linearVelocity = value; }
+    }
+
+    private Vector2 force;
+
+
+
     private void Awake()
     {
         // Initialize values
@@ -31,6 +41,8 @@ public class CustomRigidbody : MonoBehaviour
         mass = 1;
         restitution = .5f;
         density = 2f;
+
+        force = Vector2.zero;
 
         vertices = initVertices();
         transformedVertices = new Vector2[vertices.Length];
@@ -102,6 +114,11 @@ public class CustomRigidbody : MonoBehaviour
         transformUpdateRequired = true;
     }
 
+    public void AddForce(Vector2 amount)
+    {
+        force = amount;
+    }
+
     public void Update()
     {
         // Get the corners of the box
@@ -119,5 +136,19 @@ public class CustomRigidbody : MonoBehaviour
         Debug.DrawLine(transformedVertices[1], transformedVertices[2], Color.green);
         Debug.DrawLine(transformedVertices[2], transformedVertices[3], Color.green);
         Debug.DrawLine(transformedVertices[3], transformedVertices[0], Color.green);
+    }
+
+    public void Step(float time)
+    {
+        this.linearVelocity += this.force / mass * time;
+        this.position += this.linearVelocity * time;
+        this.rotation += this.rotationalVelocity * time;
+
+        transform.position = this.position;
+        transform.rotation = Quaternion.identity;
+        transform.Rotate(new Vector3(0, 0, 1), this.rotation);
+
+        transformUpdateRequired = true;
+        this.force = Vector2.zero;
     }
 }
