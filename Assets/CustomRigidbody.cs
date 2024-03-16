@@ -11,6 +11,7 @@ public class CustomRigidbody : MonoBehaviour
 
     public float density;
     public float mass;
+    public float invMass;
     public float restitution;
 
     public bool isStatic;
@@ -47,7 +48,21 @@ public class CustomRigidbody : MonoBehaviour
         vertices = initVertices();
         transformedVertices = new Vector2[vertices.Length];
 
+
+        
         transformUpdateRequired = true;
+    }
+
+    private void Start()
+    {
+        if (isStatic)
+        {
+            invMass = 0f;
+        }
+        else
+        {
+            invMass = 1f / mass;
+        }
     }
 
     private Vector2[] initVertices()
