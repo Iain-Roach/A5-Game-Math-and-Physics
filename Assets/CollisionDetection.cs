@@ -112,4 +112,113 @@ public static class CollisionDetection
             if (proj > max) { max = proj; }
         }
     }
+
+    public static void FindContactPoints(Vector2[] verticesA, Vector2[] verticesB, out Vector2 contact1, out Vector2 contact2, out int contactCount)
+    {
+        contact1 = Vector2.zero;
+        contact2 = Vector2.zero;
+        contactCount = 0;
+
+        float minDistSq = float.MaxValue;
+
+        for(int i = 0; i < verticesA.Length; i++)
+        {
+            Vector2 p = verticesA[i];
+            for(int j = 0; j < verticesB.Length; j++)
+            {
+                Vector2 va = verticesB[j];
+                Vector2 vb = verticesB[(j + 1) % verticesB.Length];
+
+                PointSegmentDistance(p, va, vb, out float distSq, out Vector2 cp);
+
+                if(NearlyEqual(distSq, minDistSq))
+                {
+                    if(!NearlyEqual(cp, contact1))
+                    {
+                        contact2 = cp;
+                        contactCount = 2;
+                    }
+                    
+                }
+                else if(distSq < minDistSq)
+                {
+                    minDistSq = distSq;
+                    contactCount = 1;
+                    contact1 = cp;
+                }
+            }
+        }
+
+        for (int i = 0; i < verticesB.Length; i++)
+        {
+            Vector2 p = verticesB[i];
+            for (int j = 0; j < verticesA.Length; j++)
+            {
+                Vector2 va = verticesA[j];
+                Vector2 vb = verticesA[(j + 1) % verticesA.Length];
+
+                PointSegmentDistance(p, va, vb, out float distSq, out Vector2 cp);
+
+                if (NearlyEqual(distSq, minDistSq))
+                {
+                    if (!NearlyEqual(cp, contact1))
+                    {
+                        contact2 = cp;
+                        contactCount = 2;
+                    }
+
+                }
+                else if (distSq < minDistSq)
+                {
+                    minDistSq = distSq;
+                    contactCount = 1;
+                    contact1 = cp;
+                }
+            }
+        }
+
+
+
+    }
+
+    public static bool NearlyEqual(float a, float b)
+    {
+        return Mathf.Abs(a - b) < 0.0001f;
+    }
+
+    public static bool NearlyEqual(Vector2 a, Vector2 b)
+    {
+        return NearlyEqual(a.x, b.x) && NearlyEqual(a.y, b.y);
+    }
+
+    public static float PointSegmentDistance(Vector2 p, Vector2 a, Vector2 b, out float distSq, out Vector2 contact)
+    {
+        Vector2 ab = b - a;
+        Vector2 ap = p - a;
+
+        float proj = Vector2.Dot(ap, ab);
+        float abLenSq = ab.SqrMagnitude();
+        float d = proj / abLenSq;
+
+        if(d <= 0)
+        {
+            contact = a;
+        }
+        else if( d >= 1)
+        {
+            contact = b;
+        }
+        else
+        {
+            contact = a + ab * d;
+        }
+
+        // ap, contact
+        float dx = ap.x - contact.x;
+        float dy = ap.y - contact.y;
+
+        distSq = dx * dx + dy * dy;
+
+        return Vector2.Distance(p, contact);
+    }
 }

@@ -13,6 +13,8 @@ public class CustomRigidbody : MonoBehaviour
     public float mass;
     public float invMass;
     public float restitution;
+    public float inertia;
+    public float invInertia;
 
     public bool isStatic;
 
@@ -26,6 +28,12 @@ public class CustomRigidbody : MonoBehaviour
     {
         get { return linearVelocity; }
         set { linearVelocity = value; }
+    }
+
+    public float RotationalVelocity
+    {
+        get { return rotationalVelocity; }
+        set { rotationalVelocity = value; }
     }
 
     private Vector2 force;
@@ -43,6 +51,9 @@ public class CustomRigidbody : MonoBehaviour
         restitution = .5f;
         density = 2f;
 
+        inertia = CalculateRotationalInertia();
+        
+
         force = Vector2.zero;
 
         vertices = initVertices();
@@ -58,10 +69,12 @@ public class CustomRigidbody : MonoBehaviour
         if (isStatic)
         {
             invMass = 0f;
+            invInertia = 0f;
         }
         else
         {
             invMass = 1f / mass;
+            invInertia = 1f / inertia;
         }
     }
 
@@ -134,6 +147,12 @@ public class CustomRigidbody : MonoBehaviour
         force = amount;
     }
 
+    private float CalculateRotationalInertia()
+    {
+        // 1/12 * mass * w^2 + h^2
+        return (1f / 12) * mass * (1 * 1 + 1 * 1);
+    }
+
     public void Update()
     {
         // Get the corners of the box
@@ -153,9 +172,15 @@ public class CustomRigidbody : MonoBehaviour
         Debug.DrawLine(transformedVertices[3], transformedVertices[0], Color.green);
     }
 
-    public void Step(float time)
+    public void Step(float time, Vector2 gravity)
     {
-        this.linearVelocity += this.force / mass * time;
+        if(isStatic)
+        {
+            return;
+        }
+
+        //this.linearVelocity += this.force / mass * time;
+        this.linearVelocity += gravity * time;
         this.position += this.linearVelocity * time;
         this.rotation += this.rotationalVelocity * time;
 
