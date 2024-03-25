@@ -14,7 +14,7 @@ public class MenuNav : MonoBehaviour
         }
         else
         {
-            DontDestroyOnLoad(this);
+            // DontDestroyOnLoad(this);
             Instance = this;
         }
     }
@@ -23,6 +23,11 @@ public class MenuNav : MonoBehaviour
     public void SwitchScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
+    }
+
+    public void SwitchCustomPhysics()
+    {
+        SceneManager.LoadScene(2);
     }
 
     public void QuitGame()

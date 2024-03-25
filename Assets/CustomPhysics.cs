@@ -6,7 +6,7 @@ public class CustomPhysics : MonoBehaviour
 {
     [SerializeField] private GameObject square;
     [SerializeField] private GameObject ground;
-    List<GameObject> objList = new List<GameObject>();
+    public List<GameObject> objList = new List<GameObject>();
     List<CollisionManifold> contactList = new List<CollisionManifold>();
 
     [SerializeField]
@@ -19,8 +19,8 @@ public class CustomPhysics : MonoBehaviour
         objList.Add(Instantiate(square, new Vector3(4, -4.0f, 0), Quaternion.identity));
         objList.Add(Instantiate(square, new Vector3(0f, 2f, 0), Quaternion.identity));
         objList.Add(Instantiate(square, new Vector3(4f, 4.0f, 0), Quaternion.Euler(new Vector3(0, 0, 0))));
-        objList.Add(Instantiate(ground, new Vector3(.25f, 0.0f, 0), Quaternion.Euler(new Vector3(0, 0, 45))));
-        objList[3].GetComponent<CustomRigidbody>().rotation = 45f;
+        objList.Add(Instantiate(ground, new Vector3(.25f, 0.0f, 0), Quaternion.Euler(new Vector3(0, 0, 0))));
+        //objList[3].GetComponent<CustomRigidbody>().rotation = 45f;
 
         // Grond grond grond it just works :p
         objList.Add(Instantiate(ground, new Vector3(0f, -5.0f, 0), Quaternion.identity));
@@ -196,7 +196,8 @@ public class CustomPhysics : MonoBehaviour
         for(int i =0; i< contactList.Count; i++)
         {
             CollisionManifold contact = contactList[i];
-            ResolveCollisionWithRotation(in contact);
+            // ResolveCollisionWithRotation(in contact);
+            ResolveCollision(in contact);
         }
 
 

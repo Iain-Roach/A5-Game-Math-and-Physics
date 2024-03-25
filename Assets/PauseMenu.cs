@@ -25,6 +25,7 @@ public class PauseMenu : MonoBehaviour
             pauseMenu.gameObject.SetActive(!pauseMenu.gameObject.activeSelf);
 
             // Also disables mouse drag until "unpaused"
+            if(mouseDrag)
             mouseDrag.enabled = !mouseDrag.enabled;
         }
     }

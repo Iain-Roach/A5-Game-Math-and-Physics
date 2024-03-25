@@ -132,7 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9627240}
-  - component: {fileID: 9627239}
+  - component: {fileID: 9627241}
   m_Layer: 0
   m_Name: MouseDragger
   m_TagString: Untagged
@@ -140,18 +140,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &9627239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9627238}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c60a52cd1f1eb2499135b1d3e4f7f53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &9627240
 Transform:
   m_ObjectHideFlags: 0
@@ -167,6 +155,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9627241
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9627238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d38c19714f46ce43ae9a588af2eda8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  customPhysics: {fileID: 519420034}
 --- !u!1 &190182308
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,7 +225,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: OwnPhysics
+  m_text: Builtin Physics
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -587,6 +588,8 @@ MonoBehaviour:
   mass: 1
   invMass: 0
   restitution: 0.5
+  inertia: 0
+  invInertia: 0
   isStatic: 1
 --- !u!212 &413975356
 SpriteRenderer:
@@ -898,7 +901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenu: {fileID: 361557322}
-  mouseDrag: {fileID: 9627239}
+  mouseDrag: {fileID: 0}
 --- !u!114 &519420034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -913,6 +916,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   square: {fileID: 909000003}
   ground: {fileID: 413975353}
+  objList: []
   gravity: {x: 0, y: -9.81}
 --- !u!1 &652131831
 GameObject:
@@ -1194,6 +1198,8 @@ MonoBehaviour:
   mass: 1
   invMass: 0
   restitution: 0.5
+  inertia: 0
+  invInertia: 0
   isStatic: 0
 --- !u!1 &1171377990
 GameObject:
@@ -1421,7 +1427,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: BuiltInPhysics
+          m_StringArgument: CustomPhysics
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1340625769
@@ -1677,7 +1683,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1474219744}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 519420033}
+        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
+        m_MethodName: SwitchScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: BuiltInPhysics
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1474219744
 MonoBehaviour:
   m_ObjectHideFlags: 0

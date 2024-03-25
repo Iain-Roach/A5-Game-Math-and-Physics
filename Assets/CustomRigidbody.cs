@@ -165,7 +165,7 @@ public class CustomRigidbody : MonoBehaviour
         //    Debug.DrawLine(corners[3], corners[0], Color.red);
 
         GetTransformedVertices();
-        Debug.Log(transformedVertices[1]);
+        //Debug.Log(transformedVertices[1]);
         Debug.DrawLine(transformedVertices[0], transformedVertices[1], Color.green);
         Debug.DrawLine(transformedVertices[1], transformedVertices[2], Color.green);
         Debug.DrawLine(transformedVertices[2], transformedVertices[3], Color.green);
@@ -179,7 +179,7 @@ public class CustomRigidbody : MonoBehaviour
             return;
         }
 
-        //this.linearVelocity += this.force / mass * time;
+        this.linearVelocity += this.force / mass * time;
         this.linearVelocity += gravity * time;
         this.position += this.linearVelocity * time;
         this.rotation += this.rotationalVelocity * time;
